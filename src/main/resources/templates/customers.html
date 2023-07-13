@@ -10,12 +10,14 @@
 <div class="container-fluid col-8">
     <div class="col-6 container justify-content-center ">
         <div class="m-1">
-            <a th:href="@{/registerCustomer}" method="get">
+            <a th:href="@{/registerCustomer}" method="get" class="col-6">
                 <button class="btn text-bg-warning">Inregistrare client nou</button>
             </a>
-            <a class="nav-link" th:href="@{/index}">
-                <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
-            </a>
+            <span>
+                <a class="nav-link col-6" th:href="@{/index}">
+                    <i class="fas fa-home"></i>
+                </a>
+        </span>
         </div>
 
     </div>
