@@ -47,4 +47,11 @@ public class CustomerController {
         customerList.add(customer);
         return "redirect:customers";
     }
+
+
+    @GetMapping(value = "/registerCustomer")
+    public String getRegisterCustomer (Model model) {
+        model.addAttribute("customer", new Customer());
+        return "registerCustomer";
+    }
 }
