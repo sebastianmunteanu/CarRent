@@ -8,37 +8,60 @@
 </head>
 <body>
 <div class="container-fluid col-8">
-    <div class="col-6 container justify-content-center ">
-        <div class="m-1">
-            <a th:href="@{/registerCustomer}" method="get" class="col-6">
-                <button class="btn text-bg-warning">Inregistrare client nou</button>
-            </a>
-            <span>
-                <a class="nav-link col-6" th:href="@{/index}">
-                    <i class="fas fa-home"></i>
-                </a>
-        </span>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary m-2">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Lista clienti</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link col-6" th:href="@{/index}">
+                            <i class="fas fa-home"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a th:href="@{/registerCustomer}" method="get">
+                            <button class="btn text-bg-warning">Inregistrare client nou</button>
+                        </a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Cauta client" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Cauta</button>
+                </form>
+            </div>
         </div>
+    </nav>
 
-    </div>
 
-
-    <div class="container col-8">
+    <div class="container col-10">
         <table class="table table-bordered text-bg-primary table-light table-striped-columns">
             <thead>
-            <td>Id</td>
-            <td>Firs name</td>
-            <td>Last name</td>
-            <td>Phone number</td>
+            <td>Nume</td>
+            <td>Prenume</td>
+            <td>Numar de telefon</td>
             <td>Email</td>
+            <td>Actiuni</td>
             </thead>
             <tbody>
             <tr th:each="customer : ${customerList}">
-                <td th:text="${customer.id}"/>
                 <td th:text="${customer.firstName}"/>
                 <td th:text="${customer.lastName}"/>
                 <td th:text="${customer.phoneNumber}"/>
                 <td th:text="${customer.email}"/>
+                <td class="justify-content-center">
+                    <form th:action="@{/deleteCustomer}" method="post">
+                        <input type="hidden" th:name="id" th:value="${customer.id}"/>
+                        <button type="submit" class="btn btn-outline-danger">Sterge</button>
+                    </form>
+                    <form th:action="@{/customerForm}" method="get">
+                        <input type="hidden" th:name="id" th:value="${customer.id}"/>
+                        <button type="submit" class="btn btn-outline-primary">Editare</button>
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

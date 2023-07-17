@@ -1,11 +1,20 @@
 package com.example.CarRent.Model;
 
-public class Customer {
+import jakarta.persistence.*;
 
+@Entity
+@Table(name="t_customer")
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column (name = "firstname")
     private String firstName;
+    @Column (name = "lastname")
     private String lastName;
+    @Column (name = "phonenumber")
     private String phoneNumber;
+    @Column
     private String email;
 
     public Customer(int id, String firstName, String lastName, String phoneNumber, String email) {
