@@ -1,9 +1,17 @@
 package com.example.CarRent.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name="t_car")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Car {
 
     @Id
@@ -20,16 +28,8 @@ public class Car {
     @Column
     private double mileage;
 
-    public Car(int id, String brand, String model, int year, String color, double mileage) {
-        this.id = id;
-        this.brand = brand;
-        this.model = model;
-        this.yearOfManufacture = year;
-        this.color = color;
-        this.mileage = mileage;
-    }
-
-    public Car () { }
+    @OneToMany(mappedBy = "car")
+    private List<Reservation> reservations;
 
     public int getId() {
         return id;
@@ -55,12 +55,12 @@ public class Car {
         this.model = model;
     }
 
-    public int getYear() {
+    public int getYearOfManufacture() {
         return yearOfManufacture;
     }
 
-    public void setYear(int year) {
-        this.yearOfManufacture = year;
+    public void setYearOfManufacture(int yearOfManufacture) {
+        this.yearOfManufacture = yearOfManufacture;
     }
 
     public String getColor() {
@@ -77,5 +77,21 @@ public class Car {
 
     public void setMileage(double mileage) {
         this.mileage = mileage;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public String getCar () {
+        return brand + " " + model;
+    }
+
+    public int getNumberOfReserved () {
+        return reservations.size();
     }
 }

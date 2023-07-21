@@ -1,9 +1,17 @@
 package com.example.CarRent.Model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name="t_customer")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,17 +25,8 @@ public class Customer {
     @Column
     private String email;
 
-    public Customer(int id, String firstName, String lastName, String phoneNumber, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
-
-    public  Customer () {
-
-    }
+    @OneToMany(mappedBy = "customer")
+    private List<Reservation> reservations;
 
     public int getId() {
         return id;
@@ -67,6 +66,22 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
+    public String getFullName () {
+        return firstName + " " + lastName;
+    }
+
+    public int getReservationNumer () {
+        return reservations.size();
     }
 
     @Override

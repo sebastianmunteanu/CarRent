@@ -32,7 +32,7 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Cauta client" aria-label="Search">
+                    <input class="form-control me-2" type="search" placeholder="Cauta masina" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Cauta</button>
                 </form>
             </div>
@@ -48,15 +48,17 @@
             <td>An de fabricatie</td>
             <td>Culoare</td>
             <td>Kilometraj</td>
+            <td>Nr. de rezervari</td>
             <td>Actiuni</td>
             </thead>
             <tbody>
                 <tr th:each="car : ${carList}">
                     <td th:text="${car.brand}"/>
                     <td th:text="${car.model}"/>
-                    <td th:text="${car.year}"/>
+                    <td th:text="${car.yearOfManufacture}"/>
                     <td th:text="${car.color}"/>
                     <td th:text="${car.mileage}"/>
+                    <td th:text="${car.reservationsNumber}"/>
                     <td>
                         <div class="d-flex justify-content-center">
                             <div class="m-1">
