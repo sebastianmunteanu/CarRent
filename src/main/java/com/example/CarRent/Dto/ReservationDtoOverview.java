@@ -2,6 +2,8 @@ package com.example.CarRent.Dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Builder
@@ -9,6 +11,10 @@ import lombok.*;
 @NoArgsConstructor
 public class ReservationDtoOverview {
     private int id;
-    private int customer;
-    private int car;
+    private String customer;
+    private String car;
+    private String dateOfReservation;
+    private String startDate;
+    private String endDate;
+    private int numberOfResDays;
 }

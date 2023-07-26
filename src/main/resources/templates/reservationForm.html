@@ -20,21 +20,63 @@
                                 <div class="card shadow-lg border-0 rounded-lg mt-5">
                                     <div class="card-header"><h3 class="text-center font-weight-light my-4">Rezervare masina</h3></div>
                                     <div class="card-body">
-                                        <form action="#" method="post" th:action="@{/submitReservation}">
+                                        <form action="#" method="post" th:action="@{/submitReservation}" th:object="${reservation}">
                                             <div class="row mb-3">
-                                                <div class="col-mb-6 justify-content-center d-flex">
-                                                    <label>Selecteaza client</label>
-                                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="customerId" name="customerId">
+                                                <div class="col-mb-6 justify-content-center d-block">
+                                                    <div class="d-flex justify-content-center mb-2">
+                                                        <label for="customerSelect">Selecteaza client</label>
+                                                    </div>
+                                                    <select class="form-select form-select-lg mb-3"
+                                                            aria-label=".form-select-lg example"
+                                                            id="customerSelect"
+                                                            th:field = "*{customer}">
                                                         <option th:each="customer : ${customerList}" th:value="${customer.id}" th:text="${customer.fullName}" ></option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <div class="col-mb-6 justify-content-center d-flex">
-                                                    <label>Selecteaza masina</label>
-                                                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" id="carId" name="carId">
+                                                <div class="col-mb-6 justify-content-center d-block">
+                                                    <div class="d-flex justify-content-center mb-2">
+                                                        <label>Selecteaza masina</label>
+                                                    </div>
+                                                    <select class="form-select form-select-lg mb-3"
+                                                            aria-label=".form-select-lg example"
+                                                            id="carId"
+                                                            th:field = "*{car}">
                                                         <option th:each="car : ${carList}" th:value="${car.id}" th:text="${car.carName}" ></option>
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-mb-6 d-lg-flex d-sm-block justify-content-lg-between border rounded justify-content-sm-center">
+                                                    <div class="d-block justify-content-center col-lg-5">
+                                                        <div class="d-flex justify-content-center">
+                                                            <label for="startDate">Selecteaza data de incepere</label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <input type="date"
+                                                                   value="2023-03-03"
+                                                                   min="2023-01-01" max="2023-12-31"
+                                                                   th:field="*{startDate}"
+                                                                   id="startDate">
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <span th:class="text-danger" th:if = "${#fields.hasErrors('startDate')}" th:errors="*{startDate}"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="d-block justify-content-center col-lg-5">
+                                                        <div class="d-flex justify-content-center">
+                                                            <label for="endDate">Selecteaza data de final</label>
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <input type="date" id="endDate"
+                                                                   min="2023-01-01" max="2023-12-31"
+                                                                   th:field="*{endDate}">
+                                                        </div>
+                                                        <div class="d-flex justify-content-center">
+                                                            <span th:class="text-danger" th:if = "${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="mt-4 mb-0 d-flex justify-content-center">

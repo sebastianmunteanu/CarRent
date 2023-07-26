@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 @Entity
 @Table (name = "t_reservation")
 @NoArgsConstructor
@@ -14,6 +17,15 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
+    private LocalDate startDate;
+
+    @Column
+    private LocalDate endDate;
+
+    @Column
+    private LocalDate dateOfReservation;
 
     @ManyToOne
     @JoinColumn (name = "customer_id")
@@ -47,4 +59,17 @@ public class Reservation {
         this.car = car;
     }
 
+    public String getStartDate () {
+        return startDate.toString();
+    }
+    public String getEndDate () {
+        return endDate.toString();
+    }
+    public int getNumberOfReservationDays() {
+        return (int)ChronoUnit.DAYS.between(startDate, endDate);
+    }
+
+    public String getDateOfReservation () {
+        return dateOfReservation.toString();
+    }
 }

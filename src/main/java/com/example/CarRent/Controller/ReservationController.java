@@ -1,19 +1,19 @@
 package com.example.CarRent.Controller;
 
-import com.example.CarRent.Dto.CarDtoOverview;
-import com.example.CarRent.Dto.CustomerDtoOverview;
+
 import com.example.CarRent.Dto.ReservationDto;
 import com.example.CarRent.Service.CarService;
 import com.example.CarRent.Service.CustomerService;
 import com.example.CarRent.Service.ReservationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class ReservationController {
@@ -26,21 +26,26 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @GetMapping(value = "/reservationForm")
-    public String getReservationForm (Model modelCustumer, Model modeCar) {
-        List<CustomerDtoOverview> customerList = customerService.getAllCustomers();
-        modelCustumer.addAttribute("customerList", customerList);
-        List<CarDtoOverview> carList = carService.getAllCars();
-        modeCar.addAttribute("carList", carList);
+    public String getReservationForm (Model model) {
+        model.addAttribute("customerList", customerService.getAllCustomers());
+        model.addAttribute("carList", carService.getAllCars());
+        model.addAttribute("reservation", new ReservationDto());
         return "reservationForm";
     }
 
     @PostMapping(value = "/submitReservation")
-    public String submitReservation(@RequestParam("customerId") int customerId, @RequestParam("carId") int carId) {
-        ReservationDto reservation = new ReservationDto();
-        reservation.setCustomer(customerId);
-        reservation.setCar(carId);
-        reservationService.saveReservation(reservation);
-        return "redirect:/index";
+    public String submitReservation(@ModelAttribute("reservation") @Valid ReservationDto reservation,
+                                    BindingResult bindingResult,
+                                    Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("customerList", customerService.getAllCustomers());
+            model.addAttribute("carList", carService.getAllCars());
+            return "reservationForm";
+        } else {
+            System.out.println("OK");
+            reservationService.saveReservation(reservation);
+        }
+      return "redirect:/index";
     }
 
 }
