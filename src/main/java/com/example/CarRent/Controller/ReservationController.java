@@ -42,7 +42,6 @@ public class ReservationController {
             model.addAttribute("carList", carService.getAllCars());
             return "reservationForm";
         } else {
-            System.out.println("OK");
             reservationService.saveReservation(reservation);
         }
       return "redirect:/index";

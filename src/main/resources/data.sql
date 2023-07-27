@@ -18,3 +18,4 @@ values ('BMW', 'X5', 2022, 'negru', 100);
 
 insert into t_car(brand, model, yearOfManufacture, color, mileage)
 values ('Opel', 'Insignia', 2017, 'verge', 10390);
+

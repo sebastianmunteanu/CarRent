@@ -7,11 +7,12 @@ import com.example.CarRent.Model.Car;
 import com.example.CarRent.Model.Customer;
 import com.example.CarRent.Model.Reservation;
 import com.example.CarRent.Repository.ReservationRepository;
+import org.aspectj.apache.bcel.generic.RET;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,5 +52,34 @@ public class ReservationService {
                 .map(Map.Entry::getKey)
                 .orElse(null);
         return maxCar == null ? "Nu exista rezervari": maxCar.getCar();
+    }
+
+    public int getTodayReservations () {
+        List<Reservation> reservations = reservationRepository.findAll().stream()
+                .filter(reservation -> reservation.getDateOfReservation1().equals(LocalDate.now()))
+                .collect(Collectors.toList());
+        return reservations.size();
+    }
+
+    public List<Long> getReservationNumber () {
+        List<Reservation> reservations = reservationRepository.findAll().stream()
+                .filter(reservation -> reservation.getDateOfReservation1().getDayOfMonth() <= LocalDate.now().getDayOfMonth() &&
+                                        reservation.getDateOfReservation1().getDayOfMonth() > LocalDate.now().minusDays(10).getDayOfMonth())
+                .collect(Collectors.toList());
+        Map<Integer, Long> lastTenDayCount = reservations.stream()
+                .collect(Collectors.groupingBy(reservation -> reservation.getDateOfReservation1().getDayOfMonth(), Collectors.counting()));
+
+        List<Long> listOfElements = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            listOfElements.add(0L);
+        }
+
+        System.out.println(lastTenDayCount.toString());
+        List<Long> lastTenDaysReservations = lastTenDayCount.values().stream().toList();
+       // Collections.reverse(lastTenDaysReservations);
+        if (!lastTenDaysReservations.isEmpty()) {
+            listOfElements.add(9, lastTenDaysReservations.get(0));
+        }
+        return listOfElements;
     }
 }

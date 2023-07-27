@@ -35,6 +35,10 @@ public class Reservation {
     @JoinColumn (name = "car_id")
     private Car car;
 
+    public void setDateOfReservation(LocalDate dateOfReservation) {
+        this.dateOfReservation = dateOfReservation;
+    }
+
     public int getId() {
         return id;
     }
@@ -71,5 +75,9 @@ public class Reservation {
 
     public String getDateOfReservation () {
         return dateOfReservation.toString();
+    }
+
+    public LocalDate getDateOfReservation1 () {
+        return dateOfReservation;
     }
 }

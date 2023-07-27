@@ -8,7 +8,6 @@
         <meta name="author" content="Munteanu Alexandru-Sebastian" />
         <title>CarRent</title>
         <link rel="stylesheet" th:href="@{/bootstrap/css/styles.css}" type="text/css" />
-x
     </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -81,9 +80,9 @@ x
                 <main>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4 d-flex justify-content-center">Inchirieri masini</h1>
-                        <div class="row border rounded-2 border-primary justify-content-center d-flex align-items-center m-4" >
+                        <div class="row border rounded-2 border-warning justify-content-center d-flex align-items-center m-4" >
                             <div class="d-flex justify-content-center">
-                                <label>Informatii utile</label>
+                                <H4>Informatii utile</H4>
                             </div>
                             <div class="col-xl-4 col-md-12">
                                 <div class="card bg-primary text-white">
@@ -110,7 +109,7 @@ x
                                     <div class="card-body">Rezervari noi azi</div>
                                     <div class="card-footer d-flex align-items-center justify-content-between">
                                         <div>
-                                            <label th:text="${car}"/>
+                                            <label th:text="${todayreservations}"/>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +120,7 @@ x
                                 <div class="card mb-4">
                                     <div class="card-header">
                                         <i class="fas fa-chart-area me-1"></i>
-                                        Area Chart Example
+                                        Numarul de rezervari din ultimele 10 zile
                                     </div>
                                     <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
                                 </div>
@@ -181,7 +180,7 @@ x
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2023</div>
+                            <div class="text-muted">Copyright &copy; CarRent 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;
@@ -192,13 +191,66 @@ x
                 </footer>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-        <script src="bootstrap/js/scripts.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-        <script src="bootstrap/js/chart-area-demo.js"></script>
-        <script src="bootstrap/js/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-        <script src="bootstrap/js/datatables-simple-demo.js"></script>
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <script src="bootstrap/js/scripts.js"></script>
+        <script src="bootstrap/js/chart-bar-demo.js"></script>
+        <script src="bootstrap/js/datatables-simple-demo.js"></script>
+        <script th:inline="javascript">
+            var ctx = document.getElementById('myAreaChart').getContext('2d');
+            var chartData = [[${chartData}]];
+            var lastTenDays = [[${lastTenDays}]]
+            var myLineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: lastTenDays,
+                    datasets: [{
+                        label: "Rezervari",
+                        lineTension: 0.3,
+                        backgroundColor: "rgba(2,117,216,0.2)",
+                        borderColor: "rgba(2,117,216,1)",
+                        pointRadius: 5,
+                        pointBackgroundColor: "rgba(2,117,216,1)",
+                        pointBorderColor: "rgba(255,255,255,0.8)",
+                        pointHoverRadius: 5,
+                        pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                        pointHitRadius: 50,
+                        pointBorderWidth: 1,
+                        data: chartData,
+                    }],
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            time: {
+                                unit: 'date'
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 7
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: 20,
+                                maxTicksLimit: 5
+                            },
+                            gridLines: {
+                                color: "rgba(0, 0, 0, .125)",
+                            }
+                        }],
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            });
+            console.log(list);
+        </script>
     </body>
 </html>
