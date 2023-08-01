@@ -28,8 +28,8 @@
                         </a>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Cauta client" aria-label="Search">
+                <form class="d-flex" role="search" th:action="@{/searchCustomer}" method="get">
+                    <input class="form-control me-2" type="search" placeholder="Email client" aria-label="Search" name="customerEmail" th:value="${customerEmail}">
                     <button class="btn btn-outline-success" type="submit">Cauta</button>
                 </form>
             </div>

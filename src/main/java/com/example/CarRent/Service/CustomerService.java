@@ -3,6 +3,7 @@ package com.example.CarRent.Service;
 import com.example.CarRent.Dto.CustomerDto;
 import com.example.CarRent.Dto.CustomerDtoOverview;
 import com.example.CarRent.Mapper.CustomerMapper;
+import com.example.CarRent.Model.Customer;
 import com.example.CarRent.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,14 @@ public class CustomerService {
 
     public CustomerDto findCustomer(int customerId) {
         return customerMapper.getCustomerDto(customerRepository.findById(customerId).get());
+    }
+
+    public CustomerDtoOverview findCustomerByEmail (String email) {
+        Customer customer = customerRepository.findByEmail(email);
+        if (customer != null) {
+            return customerMapper.mapToCustomerDTOOverView(customer);
+        }
+        return null;
     }
 
     public void deleteCustomer(int customerId) {

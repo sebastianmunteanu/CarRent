@@ -18,3 +18,23 @@ create table t_car
     mileage double precision,
     primary key (id)
 );
+
+
+create table t_role
+(
+    id integer auto_increment,
+    roleName varchar(50),
+    primary key (id)
+);
+
+
+create table t_reservation
+(
+    id integer auto_increment,
+    startDate DATE,
+    endDate DATE,
+    dateOfReservation DATE,
+    customerId integer,
+    carId integer,
+    primary key (id)
+);

@@ -7,8 +7,9 @@ import com.example.CarRent.Model.Car;
 import com.example.CarRent.Model.Customer;
 import com.example.CarRent.Model.Reservation;
 import com.example.CarRent.Repository.ReservationRepository;
-import org.aspectj.apache.bcel.generic.RET;
+import com.example.CarRent.Utils.ChartData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -61,25 +62,23 @@ public class ReservationService {
         return reservations.size();
     }
 
-    public List<Long> getReservationNumber () {
-        List<Reservation> reservations = reservationRepository.findAll().stream()
-                .filter(reservation -> reservation.getDateOfReservation1().getDayOfMonth() <= LocalDate.now().getDayOfMonth() &&
-                                        reservation.getDateOfReservation1().getDayOfMonth() > LocalDate.now().minusDays(10).getDayOfMonth())
-                .collect(Collectors.toList());
+    public List<Integer> getReservationNumber (ChartData chartData) {
+        List<Reservation> reservations = reservationRepository.findReservationsInLastTenDays(LocalDate.now().minusDays(10));
         Map<Integer, Long> lastTenDayCount = reservations.stream()
                 .collect(Collectors.groupingBy(reservation -> reservation.getDateOfReservation1().getDayOfMonth(), Collectors.counting()));
-
-        List<Long> listOfElements = new ArrayList<>();
-        for (int i = 1; i <= 10; i++) {
-            listOfElements.add(0L);
+        chartData.setChartYMaxValue(lastTenDayCount.values().stream()
+                .max(Long::compare)
+                .orElse(0L));
+        List<Integer> listOfElements = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            if (lastTenDayCount.containsKey(LocalDate.now().minusDays(i).getDayOfMonth())) {
+                listOfElements.add(i, lastTenDayCount.get(LocalDate.now().minusDays(i).getDayOfMonth()).intValue());
+            }
+            else {
+                listOfElements.add(i, 0);
+            }
         }
-
-        System.out.println(lastTenDayCount.toString());
-        List<Long> lastTenDaysReservations = lastTenDayCount.values().stream().toList();
-       // Collections.reverse(lastTenDaysReservations);
-        if (!lastTenDaysReservations.isEmpty()) {
-            listOfElements.add(9, lastTenDaysReservations.get(0));
-        }
+        Collections.reverse(listOfElements);
         return listOfElements;
     }
 }

@@ -25,6 +25,4 @@ public class ReservationDto {
     private LocalDate endDate;
 
     private LocalDate dateOfReservation = LocalDate.now();
-
-
 }

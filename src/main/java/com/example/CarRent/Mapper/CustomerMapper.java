@@ -24,7 +24,7 @@ public class CustomerMapper {
         return mapToCustomerDto(customer);
     }
 
-    private CustomerDtoOverview mapToCustomerDTOOverView (Customer customer) {
+    public CustomerDtoOverview mapToCustomerDTOOverView (Customer customer) {
         return CustomerDtoOverview.builder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())

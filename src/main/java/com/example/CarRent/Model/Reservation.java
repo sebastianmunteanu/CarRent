@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -13,26 +14,27 @@ import java.time.temporal.ChronoUnit;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column (name = "startdate")
     private LocalDate startDate;
 
-    @Column
+    @Column (name = "enddate")
     private LocalDate endDate;
 
-    @Column
+    @Column (name = "dateofreservation")
     private LocalDate dateOfReservation;
 
     @ManyToOne
-    @JoinColumn (name = "customer_id")
+    @JoinColumn (name = "customerid")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn (name = "car_id")
+    @JoinColumn (name = "carid")
     private Car car;
 
     public void setDateOfReservation(LocalDate dateOfReservation) {

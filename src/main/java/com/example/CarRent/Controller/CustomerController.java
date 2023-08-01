@@ -1,5 +1,7 @@
 package com.example.CarRent.Controller;
 import com.example.CarRent.Dto.CustomerDto;
+import com.example.CarRent.Dto.CustomerDtoOverview;
+import com.example.CarRent.Model.Customer;
 import com.example.CarRent.Service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 
 @Controller
@@ -44,5 +48,16 @@ public class CustomerController {
     public String deleteCustomer (@RequestParam ("id") int customerId) {
         customerService.deleteCustomer(customerId);
         return "redirect:/customers";
+    }
+
+    @GetMapping(value = "/searchCustomer")
+    public String searchCustomer(@RequestParam ("customerEmail") String customerEmail, Model model) {
+        if (customerEmail != null && !customerEmail.isEmpty()) {
+            CustomerDtoOverview customer =  customerService.findCustomerByEmail(customerEmail);
+            if (customer != null) {
+                model.addAttribute("customerList", List.of(customer));
+            }
+        }
+        return "customers";
     }
 }

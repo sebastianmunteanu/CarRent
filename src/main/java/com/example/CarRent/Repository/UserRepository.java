@@ -1,10 +1,10 @@
 package com.example.CarRent.Repository;
 
-import com.example.CarRent.Model.Customer;
+import com.example.CarRent.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-    Customer findByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByEmail(String email);
 }
